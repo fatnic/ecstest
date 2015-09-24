@@ -4,14 +4,14 @@
 Animator::Animator(sf::Sprite &sprite)
     : _sprite(sprite)
     , _currentTime()
-    , _currentAnimation(nullptr)
+    , currentAnimation(nullptr)
 {}
 
 Animator::Animation &Animator::createAnimation(const std::string &name, const std::string &texturename, const sf::Time &duration, bool looping)
 {
     _animations.push_back(Animator::Animation(name, texturename, duration, looping));
 
-    if(_currentAnimation == nullptr)
+    if(currentAnimation == nullptr)
         switchAnimation(&_animations.back());
 
     return _animations.back();
@@ -19,21 +19,21 @@ Animator::Animation &Animator::createAnimation(const std::string &name, const st
 
 void Animator::update(const sf::Time &delta)
 {
-    if(_currentAnimation == nullptr)
+    if(currentAnimation == nullptr)
         return;
 
     _currentTime += delta;
 
-    float scaledTime = _currentTime.asSeconds() / _currentAnimation->_duration.asSeconds();
-    int numFrames = _currentAnimation->_frames.size();
+    float scaledTime = _currentTime.asSeconds() / currentAnimation->_duration.asSeconds();
+    int numFrames = currentAnimation->_frames.size();
     int currentFrame = static_cast<int>(scaledTime * numFrames);
 
-    if(_currentAnimation->_looping)
+    if(currentAnimation->_looping)
         currentFrame %= numFrames;
     else if(currentFrame >= numFrames)
         currentFrame = numFrames - 1;
 
-    _sprite.setTextureRect(_currentAnimation->_frames[currentFrame]);
+    _sprite.setTextureRect(currentAnimation->_frames[currentFrame]);
 }
 
 bool Animator::switchAnimation(const std::string &name)
@@ -49,8 +49,8 @@ bool Animator::switchAnimation(const std::string &name)
 
 std::string Animator::getCurrentAnimationName() const
 {
-    if(_currentAnimation != nullptr)
-        return _currentAnimation->_name;
+    if(currentAnimation != nullptr)
+        return currentAnimation->_name;
     return "";
 }
 
@@ -69,6 +69,6 @@ void Animator::switchAnimation(Animator::Animation *animation)
     if(animation != nullptr) {}
         _sprite.setTexture(AssetManager::getTexture(animation->_texturename));
 
-    _currentAnimation = animation;
+    currentAnimation = animation;
     _currentTime = sf::Time::Zero;
 }

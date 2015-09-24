@@ -16,5 +16,6 @@ HEADERS += \
     positioncomponent.hpp \
     animator.hpp \
     assetmanager.hpp \
-    animatedcomponent.hpp
+    animatedcomponent.hpp \
+    attachtomousecomponent.hpp
 

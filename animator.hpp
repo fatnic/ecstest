@@ -42,6 +42,7 @@ public:
     bool switchAnimation(std::string const& name);
     std::string getCurrentAnimationName() const;
 
+    Animator::Animation* currentAnimation;
 private:
     Animator::Animation* findAnimation(std::string const& name);
     void switchAnimation(Animator::Animation* animation);
@@ -49,7 +50,6 @@ private:
     sf::Sprite& _sprite;
     sf::Time _currentTime;
     std::list<Animator::Animation> _animations;
-    Animator::Animation* _currentAnimation;
 };
 
 #endif // ANIMATOR_HPP
