@@ -1,17 +1,8 @@
 #include "assetmanager.hpp"
-#include <assert.h>
-
-AssetManager* AssetManager::_instance = nullptr;
-
-AssetManager::AssetManager()
-{
-    assert(_instance == nullptr);
-    _instance = this;
-}
 
 sf::Texture &AssetManager::getTexture(const std::string &filename)
 {
-    auto& texMap = _instance->_textures;
+    auto& texMap = getInstance()._textures;
 
     auto pairfound = texMap.find(filename);
     if(pairfound != texMap.end())

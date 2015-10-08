@@ -4,45 +4,77 @@
 #include "assetmanager.hpp"
 
 #include "spritecomponent.hpp"
+#include "positioncomponent.hpp"
 #include "animatedcomponent.hpp"
+#include "velocitycomponent.hpp"
 #include "attachtomousecomponent.hpp"
+#include "keyboardcontrolcomponent.hpp"
+#include "rotationcomponent.hpp"
+#include "healthcomponent.hpp"
+#include "healthbarcomponent.hpp"
+
+const int screen_x = 1120;
+const int screen_y = screen_x / 16*9;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "GameWindow");
+    sf::RenderWindow window(sf::VideoMode(screen_x, screen_y), "GameWindow");
+    window.setMouseCursorVisible(false);
 
-    EntityManager em;
-    AssetManager am;
+    new EntityManager;
+    new AssetManager;
+
+    std::vector<Entity*> baddies;
 
     sf::Clock clock;
 
-    Entity& coin(em.addEntity());
-    coin.addComponent<Sprite>(AssetManager::getTexture("assets/coin.png"), sf::Vector2f(200,200), sf::Vector2f(32,32));
+    Entity& player(EntityManager::addEntity());
+    player.addComponent<Position>(sf::Vector2f(200,200));
+    player.addComponent<Velocity>(80.f);
+    player.addComponent<KeyboardControl>();
+    player.addComponent<Rotation>();
+    player.addComponent<Sprite>(AssetManager::getTexture("assets/player.png"));
+    player.addComponent<Health>(100);
+    player.addComponent<HealthBar>(50);
+    player.addComponent<AttachToMouse>(window);
 
-    coin.addComponent<Animated>(coin.getComponent<Sprite>().sprite);
-    auto& coin_spin = coin.getComponent<Animated>().createAnimation("spinning", "assets/coin.png", sf::seconds(.5), true);
-    coin_spin.addFrames(sf::Vector2i(0,0), sf::Vector2i(32,32), 8);
+    Entity& coin(EntityManager::addEntity());
+    coin.addComponent<Position>(sf::Vector2f(400,300));
+    coin.addComponent<Sprite>(AssetManager::getTexture("assets/coin.png"));
+    coin.addComponent<Animated>();
+    coin.addComponent<Health>(100, 20);
+    coin.addComponent<HealthBar>(30);
+    coin.zindex = 10;
 
-//    coin.addComponent<AttachToMouse>(window);
+    Animator::Animation& coin_spin = coin.getComponent<Animated>().createAnimation("spinning", "assets/coin.png", sf::Vector2i(32,32), sf::seconds(.75), true);
+    coin_spin.addFrames(sf::Vector2i(0,0), 8);
+
+    baddies.push_back(&coin);
 
     while (window.isOpen())
     {
         sf::Event event;
-        while (window.pollEvent(event))
+        while(window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if(event.type == sf::Event::Closed)
                 window.close();
         }
 
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+            player.getComponent<Health>().reduceHealth(1);
+
         sf::Time delta = clock.restart();
 
-        window.clear();
+        window.clear(sf::Color(64,64,64));
 
-        em.refresh();
-        em.update(delta);
-        em.draw(&window);
+        EntityManager::refresh();
+        EntityManager::update(delta);
+        EntityManager::draw(&window);
 
         window.display();
     }
+
+    delete AssetManager::getInstancePtr();
+    delete EntityManager::getInstancePtr();
 
 }

@@ -11,16 +11,12 @@ struct Position : Component
 
     Position(sf::Vector2f initialPosition) : position(initialPosition) {}
 
-    void setPosition(sf::Vector2f _position)
-    {
-        position = _position;
-    }
+    float x() { return position.x; }
+    float y() { return position.y; }
 
     void update(sf::Time delta)
     {
-        std::cout << position.x << ":" << position.y << std::endl;
     }
-
 };
 
 #endif // POSITIONCOMPONENT

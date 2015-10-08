@@ -16,16 +16,18 @@ public:
         std::string _texturename;
         std::vector<sf::IntRect> _frames;
         sf::Time _duration;
+        sf::Vector2i frameSize;
         bool _looping;
 
-        Animation(std::string const& name, std::string const& texturename, sf::Time const& duration, bool looping)
+        Animation(std::string const& name, std::string const& texturename, sf::Vector2i const& frameSize, sf::Time const& duration, bool looping)
             : _name(name)
             , _texturename(texturename)
             , _duration(duration)
             , _looping(looping)
+            , frameSize(frameSize)
         {}
 
-        void addFrames(sf::Vector2i const& startFrom, sf::Vector2i const& frameSize, unsigned int frames)
+        void addFrames(sf::Vector2i const& startFrom, unsigned int frames)
         {
             sf::Vector2i current = startFrom;
             for(unsigned int i = 0; i < frames; i++)
@@ -37,7 +39,7 @@ public:
     };
 
     Animator(sf::Sprite& sprite);
-    Animator::Animation& createAnimation(std::string const& name, std::string const& texturename, sf::Time const& duration, bool looping);
+    Animator::Animation& createAnimation(std::string const& name, std::string const& texturename, sf::Vector2i const& frameSize, sf::Time const& duration, bool looping);
     void update(sf::Time const& delta);
     bool switchAnimation(std::string const& name);
     std::string getCurrentAnimationName() const;

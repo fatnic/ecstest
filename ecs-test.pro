@@ -17,5 +17,12 @@ HEADERS += \
     animator.hpp \
     assetmanager.hpp \
     animatedcomponent.hpp \
-    attachtomousecomponent.hpp
+    attachtomousecomponent.hpp \
+    keyboardcontrolcomponent.hpp \
+    velocitycomponent.hpp \
+    gravitycomponent.hpp \
+    rotationcomponent.hpp \
+    singleton.hpp \
+    healthcomponent.hpp \
+    healthbarcomponent.hpp
 

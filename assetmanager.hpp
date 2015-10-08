@@ -3,16 +3,17 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
+#include <singleton.hpp>
 
-class AssetManager
+class AssetManager : public Singleton<AssetManager>
 {
 public:
-    AssetManager();
+    AssetManager() {}
     static sf::Texture& getTexture(std::string const& filename);
 
 private:
     std::map<std::string, sf::Texture> _textures;
-    static AssetManager* _instance;
+//    static AssetManager* _instance;
 };
 
 #endif // ASSETMANAGER_HPP

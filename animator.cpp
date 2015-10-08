@@ -7,9 +7,9 @@ Animator::Animator(sf::Sprite &sprite)
     , currentAnimation(nullptr)
 {}
 
-Animator::Animation &Animator::createAnimation(const std::string &name, const std::string &texturename, const sf::Time &duration, bool looping)
+Animator::Animation &Animator::createAnimation(const std::string &name, const std::string &texturename, sf::Vector2i const& frameSize, const sf::Time &duration, bool looping)
 {
-    _animations.push_back(Animator::Animation(name, texturename, duration, looping));
+    _animations.push_back(Animator::Animation(name, texturename, frameSize, duration, looping));
 
     if(currentAnimation == nullptr)
         switchAnimation(&_animations.back());
