@@ -16,4 +16,3 @@ sf::Texture &AssetManager::getTexture(const std::string &filename)
         return texture;
     }
 }
-

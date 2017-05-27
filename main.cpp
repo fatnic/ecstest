@@ -42,7 +42,7 @@ int main()
     coin.addComponent<Position>(sf::Vector2f(400,300));
     coin.addComponent<Sprite>(AssetManager::getTexture("assets/coin.png"));
     coin.addComponent<Animated>();
-    coin.addComponent<Health>(100, 20);
+    coin.addComponent<Health>(100, 90);
     coin.addComponent<HealthBar>(30);
     coin.zindex = 10;
 
